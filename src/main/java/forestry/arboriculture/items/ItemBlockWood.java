@@ -44,6 +44,10 @@ public class ItemBlockWood extends ItemBlockForestry {
 		EnumWoodType woodType = getWoodType(stack);
 		Block block = Block.getBlockFromItem(stack.getItem());
 
+		return placeWood(stack, woodType, block, player, world, x, y, z, metadata);
+	}
+
+	public static boolean placeWood(ItemStack stack, EnumWoodType woodType, Block block, @Nullable EntityPlayer player, World world, int x, int y, int z, int metadata) {
 		boolean placed = world.setBlock(x, y, z, block, metadata, Constants.FLAG_BLOCK_SYNCH_AND_UPDATE);
 		if (!placed) {
 			return false;
@@ -117,7 +121,12 @@ public class ItemBlockWood extends ItemBlockForestry {
 		if (ordinal >= 0 && ordinal < EnumWoodType.VALUES.length) {
 			return EnumWoodType.VALUES[ordinal];
 		}
-		return null;
+		return EnumWoodType.LARCH;
+	}
+
+	@Override
+	public int getMetadata(int i) {
+		return 0;
 	}
 
 	@Override

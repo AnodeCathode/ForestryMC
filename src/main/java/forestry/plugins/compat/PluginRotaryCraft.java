@@ -25,6 +25,7 @@ import forestry.farming.logic.FarmableBasicFruit;
 import forestry.farming.logic.FarmableGenericCrop;
 import forestry.plugins.ForestryPlugin;
 import forestry.plugins.Plugin;
+import forestry.plugins.PluginManager;
 
 @Plugin(pluginID = "RotaryCraft", name = "RotaryCraft", author = "Nirek", url = Constants.URL, unlocalizedDescription = "for.plugin.rotarycraft.description")
 public class PluginRotaryCraft extends ForestryPlugin {
@@ -47,12 +48,16 @@ public class PluginRotaryCraft extends ForestryPlugin {
 		ItemStack canolaSeed = GameRegistry.findItemStack(RC, "rotarycraft_item_canola", 1);
 		Block canolaCrop = GameRegistry.findBlock(RC, "rotarycraft_block_canola");
 
-		int seedAmount = (ForestryAPI.activeMode.getIntegerSetting("squeezer.liquid.seed")/16);
+		int seedAmount = (ForestryAPI.activeMode.getIntegerSetting("squeezer.liquid.seed") / 16);
 		seedAmount = Math.max(seedAmount, 1); // Produce at least 1 mb.
 		if (canolaSeed != null && canolaCrop != null) {
-			RecipeManagers.squeezerManager.addRecipe(10, new ItemStack[]{canolaSeed}, Fluids.SEEDOIL.getFluid(seedAmount));
-			Farmables.farmables.get("farmWheat").add(new FarmableGenericCrop(canolaSeed, canolaCrop, 9));
-			Farmables.farmables.get("farmOrchard").add(new FarmableBasicFruit(canolaCrop, 9));
+			if(PluginManager.Module.FACTORY.isEnabled()) {
+				RecipeManagers.squeezerManager.addRecipe(10, new ItemStack[]{canolaSeed}, Fluids.SEEDOIL.getFluid(seedAmount));
+			}
+			if(PluginManager.Module.FARMING.isEnabled()) {
+				Farmables.farmables.get("farmWheat").add(new FarmableGenericCrop(canolaSeed, canolaCrop, 9));
+				Farmables.farmables.get("farmOrchard").add(new FarmableBasicFruit(canolaCrop, 9));
+			}
 		}
 	}
 

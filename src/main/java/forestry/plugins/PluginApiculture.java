@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
@@ -213,7 +214,7 @@ public class PluginApiculture extends ForestryPlugin {
 		}
 
 		LocalizedConfiguration config = new LocalizedConfiguration(configFile, "2.0.0");
-		if (!config.getLoadedConfigVersion().equals(config.getDefinedConfigVersion())) {
+		if (!Objects.equals(config.getLoadedConfigVersion(), config.getDefinedConfigVersion())) {
 			boolean deleted = configFile.delete();
 			if (deleted) {
 				config = new LocalizedConfiguration(configFile, "2.0.0");
@@ -709,6 +710,8 @@ public class PluginApiculture extends ForestryPlugin {
 
 			// / FERMENTER
 			RecipeManagers.fermenterManager.addRecipe(items.honeydew.getItemStack(), 500, 1.0f, Fluids.SHORT_MEAD.getFluid(1), Fluids.HONEY.getFluid(1));
+			// / STILL
+			RecipeManagers.stillManager.addRecipe(Constants.STILL_DESTILLATION_DURATION, Fluids.SHORT_MEAD.getFluid(10), Fluids.MEAD.getFluid(5));
 		}
 
 		// ANALYZER
